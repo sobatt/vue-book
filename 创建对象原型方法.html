@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+
+	<script type="text/javascript">
+		// 什么是原型？构造函数所对应的一个唯一的对象。原型对象是由构造函数在编译时就被创建出来的一个对象。
+
+		// 原型的作用
+		// 1、把各个对象公有的属性、方法设置在原型中，这样对象就不会单独的维护这些方法和属性。从而达到节约内存的目的
+		// 2、可以给系统函数添加新操作。
+		// 3、可以把各个构造函数的原型串联起来，组成一个继承关系链
+
+		// 给Array构造函数添加元素求和的原型方法
+		// 通过Array构造函数的prototype属性获取到函数的原型对象
+		Array.prototype.arrSum = function () {
+			var sum = 0;
+			for (var i = 0; i < this.length; i++) {
+				sum += this[i];
+			}
+			return sum;
+		}
+
+		var arr = [3, 6, 8, 3];
+		// console.log(arr.arrSum());
+
+
+		//  把自定义对象的公用属性、方法抽离进原型对象，从打达到节约内存的目的。
+
+		// 一个构造函数，专门用来创建男性对象
+		// 原型+实例混合方式创建对象
+		function CreatePerson(name) {
+			// 把各个对象值不相同的部分当做实例属性
+			this.name = name;
+		}
+		// 把各个对象相同的属性当做原型属性，聪姐节约内存空间
+		CreatePerson.prototype.gender = 'man';
+		// 把所有的方法设置进原型对象
+		CreatePerson.prototype.sayHi = function () {
+			alert('hello');
+		};
+		var per1 = new CreatePerson('zhangsan');
+
+		// per1对象中，并没有单独维护gender这个属性，所以会从该对象所对应的原型中查找并获取gender的值。
+		console.log(per1.gender);
+
+		console.log(per1.__proto__);
+
+
+
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>随机的小球</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.wraper{
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+		}
+		.ball{
+			border-radius: 50%;
+			position: absolute;
+		}
+	</style>
+</head>
+<body>
+	
+	<div class="wraper">
+		
+	</div>
+
+	<script>
+		
+		//  随机大小  随机位置  随机速度  随机方向  随机颜色
+		var wraper = document.querySelector('.wraper');
+		var Ball = function(){
+			this.width = rdm(10,50);
+			this.x = rdm(2,wraper.offsetWidth - this.width);
+			this.y = rdm(2,wraper.offsetHeight - this.width);;
+			this.sx = rdm(-6,6,0);
+			this.sy = rdm(-6,6,0);
+			this.color = 'rgba('+rdm(0,255)+','+rdm(0,255)+','+rdm(0,255)+','+Math.random()+')';
+		}
+
+		Ball.prototype.create = function(){
+			this.ball = document.createElement("div");
+			this.ball.className = 'ball';
+			var text = 'width:'+this.width+'px;height:'+this.width+'px;left:'+this.x+'px;top:'+this.y+'px;background:'+this.color;
+			this.ball.style.cssText = text;
+
+			wraper.appendChild(this.ball);
+		}
+
+		Ball.prototype.run = function(){
+			this.x += this.sx;this.y += this.sy;
+			if(this.x < 0 || this.x > wraper.offsetWidth - this.width){
+				this.sx *= -1;
+			}
+			if(this.y < 0 || this.y > wraper.offsetHeight - this.width){
+				this.sy *= -1;
+			}
+
+			var text = 'width:'+this.width+'px;height:'+this.width+'px;left:'+this.x+'px;top:'+this.y+'px;background:'+this.color;
+			this.ball.style.cssText = text;
+		}
+
+		function rdm(min,max,num){
+			var result = parseInt(Math.random() * (max - min) + min);
+			if(result == num){
+				result++;
+			}
+			return result;
+		}
+		var arr = [];
+		for(var i = 0 ; i < 1000 ; i++){
+			var ball = new Ball();
+			ball.create();
+			arr[i] = ball;
+		}
+
+		setInterval(function(){
+			for(var j = 0 ; j < arr.length ; j++){
+				arr[j].run();
+			}
+		},100)
+
+	</script>
+</body>
+</html>
